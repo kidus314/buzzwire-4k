@@ -72,20 +72,20 @@ void reset() {
 }
 
 void playErrorSound() {
-  tone(buzzerPin, 400);  // Generates a 1000 Hz tone on the buzzer
-  delay(1000);           // Buzz for 100 milliseconds (adjust as needed)
-  noTone(buzzerPin);     // Stop the tone
+  tone(buzzerPin, 400);  
+  delay(1000);           
+  noTone(buzzerPin);     
 }
 void playWinSound() {
-  tone(buzzerPin, 800);  // Generates a 1000 Hz tone on the buzzer
-  delay(1000);           // Buzz for 100 milliseconds (adjust as needed)
-  noTone(buzzerPin);     // Stop the tone
+  tone(buzzerPin, 800);  
+  delay(1000);           
+  noTone(buzzerPin);    
 }
 
 void playClick() {
-  tone(buzzerPin, 200);  // Generates a 1000 Hz tone on the buzzer
-  delay(100);            // Buzz for 100 milliseconds (adjust as needed)
-  noTone(buzzerPin);     // Stop the tone
+  tone(buzzerPin, 200);  
+  delay(100);            
+  noTone(buzzerPin);     
 }
 void win() {
 
