@@ -11,13 +11,13 @@
 
 MD_Parola myDotDisplay = MD_Parola(HARDWARE_TYPE, CS_PIN, MAX_DEVICES);
 
-
 int buttonPin = 2;
 int resetPin = 5;
-
+int winPin=7;
+int buzzerPin=8;
 int buttonPresses = 0;
 int lastState = HIGH;
-unsigned long customDelay = 500;
+unsigned long customDelay = 200;
 unsigned long timeDelay = 0;
 
 void setup() {
@@ -26,9 +26,10 @@ void setup() {
   myDotDisplay.setIntensity(2);
   myDotDisplay.displayClear();
 
-
+  pinMode(winPin, INPUT_PULLUP);
   pinMode(buttonPin, INPUT_PULLUP);
   pinMode(resetPin, INPUT_PULLUP);
+  pinMode(buzzerPin, OUTPUT);
 }
 
 void loop() {
@@ -38,7 +39,7 @@ void loop() {
 
   myDotDisplay.setTextAlignment(PA_CENTER);
 
-  if (wireState == LOW && lastState == LOW&& currentTime - timeDelay > customDelay) {
+  if (wireState == LOW && lastState == LOW && currentTime - timeDelay > customDelay) {
 
 
     buttonPresses++;
@@ -49,7 +50,74 @@ void loop() {
   lastState = wireState;
   myDotDisplay.print(buttonPresses);
 
-  if (resetState == LOW || wireState==High) {
-    buttonPresses = 0;
+
+
+  if (resetState == LOW) {
+    reset();
   }
+
+if (buttonPresses == 0 && digitalRead(winPin)==LOW) {
+
+  win();
+  }
+  
+ if (buttonPresses == 10) {
+  lose();
+  }
+}
+
+void reset() {
+
+  buttonPresses = 0;
+}
+
+void playErrorSound() {
+  tone(buzzerPin, 400);  // Generates a 1000 Hz tone on the buzzer
+  delay(1000);            // Buzz for 100 milliseconds (adjust as needed)
+  noTone(buzzerPin);      // Stop the tone
+}
+void playWinSound() {
+  tone(buzzerPin, 800);  // Generates a 1000 Hz tone on the buzzer
+  delay(1000);            // Buzz for 100 milliseconds (adjust as needed)
+  noTone(buzzerPin);      // Stop the tone
+}
+void win(){
+   
+
+    //myDotDisplay.print('L');
+    playWinSound();
+    myDotDisplay.setTextAlignment(PA_CENTER);
+    myDotDisplay.print("w");
+    playWinSound();
+    delay(1000);
+    myDotDisplay.print("I");
+    playWinSound();
+    delay(1000);
+    myDotDisplay.print("N");
+    playWinSound();
+    delay(2000);
+    reset();
+  
+}
+void lose(){
+  
+  
+
+    //myDotDisplay.print('L');
+    playErrorSound();
+    myDotDisplay.setTextAlignment(PA_CENTER);
+    myDotDisplay.print("L");
+    playErrorSound();
+    delay(1000);
+    myDotDisplay.print("O");
+    playErrorSound();
+    delay(1000);
+    myDotDisplay.print("S");
+    playErrorSound();
+    delay(1000);
+    myDotDisplay.print("E");
+   playErrorSound();
+    delay(2000);
+    reset();
+  
 }
